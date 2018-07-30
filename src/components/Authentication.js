@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Form, FormGroup, Label, Input, Button } from 'reactstrap'
+import { connect } from 'react-redux';
+import { Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { REGISTER_REQUEST, LOGIN_REQUEST } from '../redux/ActionTypes';
 
-export default class Authentication extends Component {
+class Authentication extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,14 +19,21 @@ export default class Authentication extends Component {
    })
  }
 
- handleSubmit = e => {
+ handleRegister = e => {
    e.preventDefault();
-   console.log(this.state)
+   this.props.sendRegisterData(this.state);
+   this.setState({email:'', password: ''})
+ }
+
+ handleLogin = e => {
+   e.preventDefault();
+   this.props.sendLoginData(this.state);
+   this.setState({email:'', password: ''})
  }
 
   render() {
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form onSubmit={this.props.match.path === '/Register' ? this.handleRegister : this.handleLogin}>
         {this.props.match.path === '/Register' ? <h2>Register yourself</h2> : <h2>Login yourself!</h2> }
         {this.props.match.path === '/Register' ? <p>Remember to put fake data!</p> : <p>Put your login data below.</p>}
         <FormGroup>
@@ -40,3 +49,12 @@ export default class Authentication extends Component {
     )
   }
 }
+
+function mapDispatchToProps (dispatch) {
+  return  {
+    sendRegisterData: (data) => dispatch({type: REGISTER_REQUEST, payload: data}),
+    sendLoginData: (data) => dispatch({type: LOGIN_REQUEST, payload: data})
+  }
+}
+
+export default connect(null, mapDispatchToProps)(Authentication);
