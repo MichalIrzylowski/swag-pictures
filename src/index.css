@@ -1,3 +1,91 @@
 .container {
   margin-top: 20px;
 }
+
+.ProfileImage {
+  height: 152px;
+  width: 152px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+.media-body {
+  margin-left: 20px;
+}
+
+.PicturesList {
+  margin-top: 28px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.UserPicture {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 293px;
+  height: 293px;
+  margin-bottom: 28px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  margin-left: 28px;
+  margin-right: 28px;
+  /*-webkit-transition: .1s ease-in;
+  transition: .1s ease-in;*/
+}
+
+.UserPicture-innerPicture {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: .2s ease-in;
+  transition: .2s ease-in;
+}
+
+.UserPicture:hover .UserPicture-innerPicture{
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  cursor: pointer;
+}
+
+/*.UserPicture:hover {
+  -webkit-transform: scale(1.05, 1.05);
+          transform: scale(1.05, 1.05);
+}*/
+
+.fas {
+  color: white;
+  margin: 0 20px;
+  opacity: 0;
+  cursor: pointer;
+  -webkit-transition: .2s ease-in;
+  transition: .2s ease-in;
+  -webkit-transition-delay: .1s;
+          transition-delay: .1s;
+}
+
+.fas:hover {
+  -webkit-transform: scale(1.3, 1.3);
+          transform: scale(1.3, 1.3);
+}
+
+.UserPicture:hover .fas {
+  opacity: 1
+}

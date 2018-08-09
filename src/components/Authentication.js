@@ -22,13 +22,15 @@ class Authentication extends Component {
  handleRegister = e => {
    e.preventDefault();
    this.props.sendRegisterData(this.state);
-   this.setState({email:'', password: ''})
+   this.setState({email:'', password: ''});
+   this.props.history.push('/');
  }
 
  handleLogin = e => {
    e.preventDefault();
    this.props.sendLoginData(this.state);
-   this.setState({email:'', password: ''})
+   this.setState({email:'', password: ''});
+   this.props.history.push('/');
  }
 
   render() {

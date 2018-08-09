@@ -10,7 +10,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <MainMenu />
+        <MainMenu props={this.props} />
         <Container>
           <MainContent location={this.props.location} />
         </Container>
