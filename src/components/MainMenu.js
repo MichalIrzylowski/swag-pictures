@@ -12,8 +12,9 @@ import {
   Form,
   InputGroup,
   InputGroupAddon,
-  Input
-//  Container
+  Input,
+  Container,
+  Alert
  } from 'reactstrap';
  import { LOGOUT, SEARCH_FOR_USER_REQUEST } from '../redux/ActionTypes';
 
@@ -23,9 +24,47 @@ class MainMenu extends Component {
     super(props);
     this.state = {
       isOpen: false,
-      username: ''
+      username: '',
+      showMessage: false,
+      message: ''
     };
   }
+
+  componentDidUpdate(prevState) {
+    const { registrationMessage, loginMessage, addPictureMessage, deletePictureMessage, updateProfileMessage, followUserMessage } = this.props
+    if (registrationMessage !== prevState.registrationMessage) {
+      this.setState({...this.state, message: registrationMessage.message})
+      this.handleResetMessage()
+    }
+    if (loginMessage !== prevState.loginMessage) {
+      this.setState({...this.state, message: loginMessage.message})
+      this.handleResetMessage()
+    }
+    if (addPictureMessage !== prevState.addPictureMessage) {
+      this.setState({...this.state, message: addPictureMessage.message})
+      this.handleResetMessage()
+    }
+    if (deletePictureMessage !== prevState.deletePictureMessage) {
+      this.setState({...this.state, message: deletePictureMessage.message})
+      this.handleResetMessage()
+    }
+    if (updateProfileMessage !== prevState.updateProfileMessage) {
+      this.setState({...this.state, message: updateProfileMessage.message})
+      this.handleResetMessage()
+    }
+    if (followUserMessage !== prevState.followUserMessage) {
+      this.setState({...this.state, message: followUserMessage.message})
+      this.handleResetMessage()
+    }
+  }
+
+  handleResetMessage = () => (
+      setTimeout(function() {
+        this.setState({...this.state, message: ''})
+      }.bind(this),
+      5000
+    )
+  )
 
   toggle = () => {
     this.setState({
@@ -51,47 +90,56 @@ class MainMenu extends Component {
 
   render() {
     return (
-      <Navbar color="light" light expand="md">
-        <NavbarBrand tag={Link} to='/'>Swag-Pictures</NavbarBrand>
-        <NavbarToggler onClick={this.toggle} />
-        <Collapse isOpen={this.state.isOpen} navbar>
-          {this.props.currentUser.isAuthenticated ? (
-            <Nav className="ml-auto" navbar>
-              <Form onSubmit={this.handleSubmit}>
-                <InputGroup>
-                  <InputGroupAddon addonType="prepend">Username:</InputGroupAddon>
-                  <Input placeholder="Author of app: Michal" type='text' name='username' value={this.state.username} onChange={this.handleChange}/>
-                </InputGroup>
-              </Form>
-              <NavItem>
-                <NavLink tag={Link} to='/Add_Picture'>Add Picture!</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to='/Profile'>Profile</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink onClick={this.handleLogout}>Logout!</NavLink>
-              </NavItem>
-            </Nav>
-          ) : (
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink tag={Link} to='/Register'>Register</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} to='/Login'>Login</NavLink>
-              </NavItem>
-            </Nav>
-          )}
-        </Collapse>
-      </Navbar>
+      <div>
+        <Navbar color="light" light expand="md">
+          <NavbarBrand tag={Link} to='/'>Swag-Pictures</NavbarBrand>
+          <NavbarToggler onClick={this.toggle} />
+          <Collapse isOpen={this.state.isOpen} navbar>
+            {this.props.currentUser.isAuthenticated ? (
+              <Nav className="ml-auto" navbar>
+                <Form onSubmit={this.handleSubmit}>
+                  <InputGroup>
+                    <InputGroupAddon addonType="prepend">Username:</InputGroupAddon>
+                    <Input placeholder="Author of app: Michał" type='text' name='username' value={this.state.username} onChange={this.handleChange}/>
+                  </InputGroup>
+                </Form>
+                <NavItem>
+                  <NavLink tag={Link} to='/Add_Picture'>Add Picture!</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to='/Profile'>Profile</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink onClick={this.handleLogout}>Logout!</NavLink>
+                </NavItem>
+              </Nav>
+            ) : (
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink tag={Link} to='/Register'>Register</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} to='/Login'>Login</NavLink>
+                </NavItem>
+              </Nav>
+            )}
+          </Collapse>
+        </Navbar>
+        {this.state.message && <Container><Alert color="success">{this.state.message}</Alert></Container>}
+      </div>
     )
   }
 }
 
 function mapStateToProps (state) {
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    registrationMessage: state.registration,
+    loginMessage: state.login,
+    addPictureMessage: state.addPicture,
+    deletePictureMessage: state.deletePicture,
+    updateProfileMessage: state.updateProfile,
+    followUserMessage: state.followUser
   }
 }
 

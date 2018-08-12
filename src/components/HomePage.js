@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { LOAD_PICTURES } from '../redux/ActionTypes';
+import PictureCard from './PictureCard';
+import Helper from './Helper';
 
 const items = [
   {
@@ -30,11 +32,35 @@ class HomePage extends Component {
 
   componentDidUpdate(prevState) {
     if (this.props.user.isAuthenticated !== prevState.user.isAuthenticated) {
-      this.props.loadPictures();
+      const userFollowing = this.props.user.user.following;
+      let picturesToShow = [];
+      userFollowing.forEach( u => picturesToShow = [...picturesToShow, ...u.pictures]);
+      this.props.loadPictures(picturesToShow);
+    }
+  }
+
+  componentDidMount() {
+    if(this.props.user.isAuthenticated) {
+      const userFollowing = this.props.user.user.following;
+      let picturesToShow = [];
+      userFollowing.forEach( u => picturesToShow = [...picturesToShow, ...u.pictures]);
+      this.props.loadPictures(picturesToShow);
     }
   }
 
   render() {
+
+    let picturesCards = this.props.pictures.map( p => <PictureCard key={p._id} img={p.imgUrl} title={p.title} description={p.description} author={p.author} /> );
+
+    const { isAuthenticated } = this.props.user
+    if ( isAuthenticated ) {
+      return (
+        <div>
+          {picturesCards}
+          {picturesCards.length === 0 ? <Helper /> : null}
+        </div>
+      )
+    }
     return (
       <Row>
         <Col xs='7'>
@@ -57,13 +83,15 @@ class HomePage extends Component {
 
 function mapDispatchToProps (dispatch) {
   return {
-    loadPictures: () => dispatch({type: LOAD_PICTURES})
+    loadPictures: (pictures) => dispatch({type: LOAD_PICTURES, payload: pictures})
   }
 }
 
 function mapStateToProps (state) {
   return {
-    user: state.currentUser
+    user: state.currentUser,
+    following: state.currentUser.user.following,
+    pictures: state.loadPictures.pictures
   }
 }
 

@@ -11,7 +11,8 @@ class FoundUsers extends Component {
     let users = this.props.foundUsers.map( u => (
       <FoundUser
         key={u._id}
-        image=''
+        id={u._id}
+        image={u.profileImgUrl}
         username={u.username}
         description={u.description}
         handleFollow={this.props.handleFollow.bind(this, u._id, this.props.currentUser.id)}

@@ -121,7 +121,7 @@ function* loadPicturesFlow() {
   while(true) {
     const loadPictures = yield take(LOAD_PICTURES)
     try {
-      const pictures = yield call(apiCall, 'get', 'api/user/getAllPictures');
+      const pictures = yield call(apiCall, 'post', 'api/user/getPictures', loadPictures.payload);
       yield put({type: LOAD_PICTURES_SUCCESS, payload: pictures})
     } catch (e) {
       yield put({type: LOAD_PICTURES_FAIL, payload: e})

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Col, Row, Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Container, Col, Row, Button, Form, FormGroup, Label, Input} from 'reactstrap';
 import { connect } from 'react-redux';
 import { UPDATE_PROFILE_REQUEST } from '../redux/ActionTypes';
 

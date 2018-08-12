@@ -25,7 +25,10 @@ import {
   SEARCH_FOR_USER_FAIL,
   HANDLE_FOLLOW_REQUEST,
   HANDLE_FOLLOW_SUCCESS,
-  HANDLE_FOLLOW_FAIL
+  HANDLE_FOLLOW_FAIL,
+  LOAD_PICTURES,
+  LOAD_PICTURES_SUCCESS,
+  LOAD_PICTURES_FAIL
 } from './ActionTypes'
 
 const loadingTrue = {loading: true};
@@ -36,7 +39,8 @@ const initialUser = {isAuthenticated: false,
                        username: '',
                        description: '',
                        profileImgUrl: '',
-                       pictures: []
+                       pictures: [],
+                       following: []
                      }
                    };
 
@@ -104,7 +108,7 @@ function addPicture (state=loadingFalse, action) {
     case ADD_PICTURE_REQUEST:
       return {loading: true};
     case ADD_PICTURE_SUCCESS:
-      return {loading: false};
+      return {loading: false, message: 'Succesfully added a picture!'};
     case ADD_PICTURE_FAIL:
       return {loading: false, error: action.payload};
     default:
@@ -143,7 +147,7 @@ function searchUsers (state = {loading: false, foundUsers: []}, action) {
     case SEARCH_FOR_USER_REQUEST:
       return {...state, loading: true};
     case SEARCH_FOR_USER_SUCCESS:
-      return {... state, loading: false, foundUsers: action.payload};
+      return {...state, loading: false, foundUsers: action.payload};
     case SEARCH_FOR_USER_FAIL:
       return {...state, loading: false, error: action.payload}
     default:
@@ -156,11 +160,26 @@ function followUser (state = loadingFalse, action) {
     case HANDLE_FOLLOW_REQUEST:
       return {loading: true}
     case HANDLE_FOLLOW_SUCCESS:
-      return {loading: false}
+      return {loading: false, message: 'You are now following a new person!'}
     case HANDLE_FOLLOW_FAIL:
       return {loading: false, error: action.payload}
     default:
-      return state
+      return state;
+  }
+}
+
+function loadPictures (state = {loading: false, pictures: []}, action) {
+  switch (action.type) {
+    case LOAD_PICTURES:
+      return {loading: true, pictures:[]}
+    case LOAD_PICTURES_SUCCESS:
+      return {loading: false, pictures: [...action.payload]}
+    case LOAD_PICTURES_FAIL:
+      return {loading: false, error: action.payload}
+    case LOGOUT_SUCCESS:
+      return {loading: false, pictures: []}
+    default:
+      return state;
   }
 }
 
@@ -172,5 +191,7 @@ export default combineReducers({
   addPicture,
   deletePicture,
   updateProfile,
-  searchUsers
+  searchUsers,
+  followUser,
+  loadPictures
 })

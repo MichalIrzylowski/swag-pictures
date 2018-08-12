@@ -1,12 +1,22 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { ListGroupItem, Media, Button } from 'reactstrap';
 
-const FoundUser = ({image, username, description, handleFollow}) => {
+const FoundUser = ({id, image, username, description, handleFollow, following}) => {
+
+  const isFollowing = following.some( f => f._id === id);
+
+  const button = isFollowing ? <Button color="primary" size="sm" disabled >Following</Button> : <Button color="primary" size="sm" onClick={handleFollow}>Follow</Button>
+
+  // if (isFollowing) {
+  //   alert('Following')
+  // }
+
   return (
     <ListGroupItem>
       <Media>
         <Media left>
-          <img src={image} alt='Profile image will be here' />
+          <div style={{backgroundImage: `url(${image})`}} className='ProfileImage' ></div>
         </Media>
         <Media body>
           <Media heading>
@@ -15,10 +25,16 @@ const FoundUser = ({image, username, description, handleFollow}) => {
           {description}
         </Media>
         <Media right>
-          <Button color="primary" size="sm" onClick={handleFollow}>Follow</Button>
+          {button}
         </Media>
       </Media>
     </ListGroupItem>
 )}
 
-export default FoundUser;
+function mapStateToProps(state) {
+  return {
+    following: state.currentUser.user.following
+  }
+}
+
+export default connect(mapStateToProps)(FoundUser);
