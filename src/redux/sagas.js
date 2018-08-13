@@ -109,7 +109,7 @@ function* updateProfileFlow() {
   while(true) {
     const updatedProfile = yield take(UPDATE_PROFILE_REQUEST);
     try {
-      const profile = yield call(apiCall, 'put', `http://localhost:3001/api/user/${updatedProfile.id}`, updatedProfile.payload, updatedProfile.config);
+      const profile = yield call(apiCall, 'put', `api/user/${updatedProfile.id}`, updatedProfile.payload, updatedProfile.config);
       yield put({type: UPDATE_PROFILE_SUCCESS, payload: profile})
     } catch (e) {
       yield put({type: UPDATE_PROFILE_FAIL, payload: e})
