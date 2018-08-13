@@ -5,7 +5,7 @@
   },
   "proxies": {
     "/api": {
-      "origin": "https://swag-pictures-server.herokuapp.com/"
+      "origin": "https://swag-pictures-server.herokuapp.com"
     }
   }
 }
