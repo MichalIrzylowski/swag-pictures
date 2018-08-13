@@ -64,7 +64,7 @@ function* loginFlow () {
   while (true) {
     const request = yield take(LOGIN_REQUEST);
     try {
-      const user = yield call(apiCall, 'post', 'api/auth/login', request.payload);
+      const user = yield call(apiCall, 'post', '/api/auth/login', request.payload);
       yield put({type: SET_CURRENT_USER, payload: user});
       yield put({type: LOGIN_REQUEST_SUCCESS})
       sessionStorage.setItem('jwtToken', user.token);
@@ -84,7 +84,7 @@ function* addPictureFlow() {
   while (true) {
     const pictureData = yield take(ADD_PICTURE_REQUEST);
     try {
-      const picture = yield call(apiCall, 'post', `api/user/${pictureData.userId}/picture`, pictureData.payload, pictureData.config);
+      const picture = yield call(apiCall, 'post', `/api/user/${pictureData.userId}/picture`, pictureData.payload, pictureData.config);
       yield put({type: ADD_PICTURE_SUCCESS, payload: picture});
     } catch (e) {
       yield put({type: ADD_PICTURE_FAIL, payload: e});
@@ -96,7 +96,7 @@ function* removePictureFlow() {
   while (true) {
     const removedPicture = yield take(DELETE_PICTURE_REQUEST);
     try {
-      yield call(apiCall, 'delete', `api/user/${removedPicture.id}`);
+      yield call(apiCall, 'delete', `/api/user/${removedPicture.id}`);
       yield put({type: DELETE_PICTURE_SUCCESS, payload: removedPicture.id});
     } catch (e) {
       yield put({type: DELETE_PICTURE_FAIL, payload: e})
@@ -121,7 +121,7 @@ function* loadPicturesFlow() {
   while(true) {
     const loadPictures = yield take(LOAD_PICTURES)
     try {
-      const pictures = yield call(apiCall, 'post', 'api/user/getPictures', loadPictures.payload);
+      const pictures = yield call(apiCall, 'post', '/api/user/getPictures', loadPictures.payload);
       yield put({type: LOAD_PICTURES_SUCCESS, payload: pictures})
     } catch (e) {
       yield put({type: LOAD_PICTURES_FAIL, payload: e})
@@ -133,7 +133,7 @@ function* searchUsersFlow() {
   while(true) {
     const searchUserQuery = yield take(SEARCH_FOR_USER_REQUEST);
     try {
-      const foundUsers = yield call(apiCall, 'post', 'api/user/search_users', searchUserQuery.payload);
+      const foundUsers = yield call(apiCall, 'post', '/api/user/search_users', searchUserQuery.payload);
       yield put({type: SEARCH_FOR_USER_SUCCESS, payload: foundUsers})
     } catch (e) {
       yield put({type: SEARCH_FOR_USER_FAIL, payload: e})
@@ -145,7 +145,7 @@ function* followUserFlow() {
   while(true) {
     const followedUser = yield take(HANDLE_FOLLOW_REQUEST);
     try {
-      const succesfulyFollowedUser = yield call(apiCall, 'post', 'api/user/follow_user', followedUser.payload);
+      const succesfulyFollowedUser = yield call(apiCall, 'post', '/api/user/follow_user', followedUser.payload);
       yield put({type: HANDLE_FOLLOW_SUCCESS, payload: succesfulyFollowedUser});
     } catch (e) {
       yield put({type: HANDLE_FOLLOW_FAIL, payload: e});
