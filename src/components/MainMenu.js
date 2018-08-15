@@ -31,7 +31,7 @@ class MainMenu extends Component {
   }
 
   componentDidUpdate(prevState) {
-    const { registrationMessage, loginMessage, addPictureMessage, deletePictureMessage, updateProfileMessage, followUserMessage } = this.props
+    const { registrationMessage, loginMessage, addPictureMessage, deletePictureMessage, updateProfileMessage, followUserMessage, currentUser } = this.props
     if (registrationMessage !== prevState.registrationMessage) {
       this.setState({...this.state, message: registrationMessage.message})
       this.handleResetMessage()

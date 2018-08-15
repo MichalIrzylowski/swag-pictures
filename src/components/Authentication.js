@@ -19,18 +19,22 @@ class Authentication extends Component {
    })
  }
 
+ componentDidUpdate(prevState) {
+   if (this.props.user.isAuthenticated !== prevState.user.isAuthenticated) {
+     this.props.history.push('/');
+   }
+ }
+
  handleRegister = e => {
    e.preventDefault();
    this.props.sendRegisterData(this.state);
    this.setState({email:'', password: ''});
-   this.props.history.push('/');
  }
 
  handleLogin = e => {
    e.preventDefault();
    this.props.sendLoginData(this.state);
    this.setState({email:'', password: ''});
-   this.props.history.push('/');
  }
 
   render() {
@@ -59,4 +63,10 @@ function mapDispatchToProps (dispatch) {
   }
 }
 
-export default connect(null, mapDispatchToProps)(Authentication);
+function mapStateToProps (state) {
+  return {
+    user: state.currentUser
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Authentication);
