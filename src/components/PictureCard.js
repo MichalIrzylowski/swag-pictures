@@ -22,6 +22,14 @@ class PictureCard extends Component {
     };
   }
 
+  componentDidUpdate(prevState) {
+    console.log("updateChek1");
+    if (this.props.comments !== prevState.comments) {
+      console.log("updateCheck2");
+      this.forceUpdate();
+    }
+  }
+
   handleChange = e => {
     this.setState({ comment: e.target.value });
   };
@@ -60,7 +68,7 @@ class PictureCard extends Component {
           <CardTitle>{title}</CardTitle>
           <CardText>{description}</CardText>
           {comments.length > 0 && (
-            <button>{`Show all coments: ${comments.length} `}</button>
+            <Button>{`Show all coments: ${comments.length} `}</Button>
           )}
         </CardBody>
         <hr />

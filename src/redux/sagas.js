@@ -172,19 +172,24 @@ function* followUserFlow() {
 }
 
 function* addCommentFlow() {
-  while(true) {
-    const comment = yiled take(ActionType.ADD_COMMENT_REQUEST);
+  while (true) {
+    const comment = yield take(ActionType.ADD_COMMENT_REQUEST);
     try {
-      const succesfulyAddedComment = yield call(apiCall, 'post', '/api/user/addComment', comment.payload);
+      const succesfulyAddedComment = yield call(
+        apiCall,
+        "post",
+        "/api/user/addComment",
+        comment.payload
+      );
       yield put({
         type: ActionType.ADD_COMMENT_SUCCESS,
         payload: succesfulyAddedComment
-      })
+      });
     } catch (error) {
       yield put({
         type: ActionType.ADD_COMMENT_FAIL,
         payload: error
-      })
+      });
     }
   }
 }
