@@ -181,6 +181,32 @@ function loadPictures(state = { loading: false, pictures: [] }, action) {
   }
 }
 
+function addComment(state = loadingFalse, action) {
+  switch (action.type) {
+    case ActionType.ADD_COMMENT_REQUEST:
+      return { loading: true };
+    case ActionType.ADD_COMMENT_SUCCESS:
+      return { loading: false, message: "Added Coment!" };
+    case ActionType.ADD_COMMENT_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+}
+
+function showComments(state = loadingFalse, action) {
+  switch (action.type) {
+    case ActionType.SHOW_COMMENTS_REQUEST:
+      return loadingTrue;
+    case ActionType.SHOW_COMMENTS_SUCCESS:
+      return { loading: false, comments: action.payload };
+    case ActionType.SHOW_COMMENTS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   didAppLoad,
   registration,
@@ -191,5 +217,7 @@ export default combineReducers({
   updateProfile,
   searchUsers,
   followUser,
-  loadPictures
+  loadPictures,
+  addComment,
+  showComments
 });

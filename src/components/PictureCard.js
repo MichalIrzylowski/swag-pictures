@@ -12,7 +12,10 @@ import {
   Button
 } from "reactstrap";
 import { connect } from "react-redux";
-import { ADD_COMMENT_REQUEST } from "../redux/ActionTypes";
+import {
+  ADD_COMMENT_REQUEST,
+  SHOW_COMMENTS_REQUEST
+} from "../redux/ActionTypes";
 
 class PictureCard extends Component {
   constructor(props) {
@@ -20,14 +23,6 @@ class PictureCard extends Component {
     this.state = {
       comment: ""
     };
-  }
-
-  componentDidUpdate(prevState) {
-    console.log("updateChek1");
-    if (this.props.comments !== prevState.comments) {
-      console.log("updateCheck2");
-      this.forceUpdate();
-    }
   }
 
   handleChange = e => {
@@ -44,6 +39,10 @@ class PictureCard extends Component {
       );
       this.setState({ comment: "" });
     }
+  };
+
+  handleLoadComments = e => {
+    this.props.loadComments(this.props.comments);
   };
 
   render() {
@@ -68,7 +67,9 @@ class PictureCard extends Component {
           <CardTitle>{title}</CardTitle>
           <CardText>{description}</CardText>
           {comments.length > 0 && (
-            <Button>{`Show all coments: ${comments.length} `}</Button>
+            <Button onClick={this.handleLoadComments}>{`Show all coments: ${
+              comments.length
+            } `}</Button>
           )}
         </CardBody>
         <hr />
@@ -92,7 +93,9 @@ function mapDispatchToProps(dispatch) {
       dispatch({
         type: ADD_COMMENT_REQUEST,
         payload: { comment, pictureId, userId }
-      })
+      }),
+    loadComments: comments =>
+      dispatch({ type: SHOW_COMMENTS_REQUEST, payload: comments })
   };
 }
 

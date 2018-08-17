@@ -194,6 +194,26 @@ function* addCommentFlow() {
   }
 }
 
+function* showCommentsFlow() {
+  while (true) {
+    const commentsToShow = yield take(ActionType.SHOW_COMMENTS_REQUEST);
+    try {
+      const succesfulyFoundComments = yield call(
+        apiCall,
+        "post",
+        "/api/user/find_comments",
+        commentsToShow.payload
+      );
+      yield put({
+        type: ActionType.SHOW_COMMENTS_SUCCESS,
+        comments: succesfulyFoundComments
+      });
+    } catch (error) {
+      yield put({ type: ActionType.SHOW_COMMENTS_FAIL, payload: error });
+    }
+  }
+}
+
 export default function* rootSaga() {
   yield takeEvery(ActionType.APP_INIT, appInitiated);
   yield fork(registerFlow);
@@ -205,4 +225,5 @@ export default function* rootSaga() {
   yield fork(searchUsersFlow);
   yield fork(followUserFlow);
   yield fork(addCommentFlow);
+  yield fork(showCommentsFlow);
 }
