@@ -194,14 +194,29 @@ function addComment(state = loadingFalse, action) {
   }
 }
 
-function showComments(state = loadingFalse, action) {
+function showComments(state = { loading: false, comments: {} }, action) {
   switch (action.type) {
     case ActionType.SHOW_COMMENTS_REQUEST:
-      return loadingTrue;
+      return { ...state, loading: true };
     case ActionType.SHOW_COMMENTS_SUCCESS:
-      return { loading: false, comments: action.payload };
+      let commentsToPictures = { ...state.comments };
+      if (!commentsToPictures[action.payload[0].commentTo._id]) {
+        commentsToPictures[action.payload[0].commentTo._id] = action.payload;
+      } else {
+        commentsToPictures[action.payload[0].commentTo._id] = action.payload;
+      }
+      return { loading: false, comments: commentsToPictures };
+    case ActionType.ADD_COMMENT_SUCCESS:
+      if (state.comments[action.payload.commentTo]) {
+        let comments = { ...state.comments };
+        comments[action.payload.commentTo].push(action.payload);
+        return { ...state, comments };
+      }
+      return { ...state };
     case ActionType.SHOW_COMMENTS_FAIL:
       return { loading: false, error: action.payload };
+    case ActionType.LOGOUT_SUCCESS:
+      return { ...state, comments: {} };
     default:
       return state;
   }

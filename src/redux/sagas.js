@@ -174,6 +174,7 @@ function* followUserFlow() {
 function* addCommentFlow() {
   while (true) {
     const comment = yield take(ActionType.ADD_COMMENT_REQUEST);
+    console.log(comment.payload);
     try {
       const succesfulyAddedComment = yield call(
         apiCall,
@@ -206,7 +207,7 @@ function* showCommentsFlow() {
       );
       yield put({
         type: ActionType.SHOW_COMMENTS_SUCCESS,
-        comments: succesfulyFoundComments
+        payload: succesfulyFoundComments
       });
     } catch (error) {
       yield put({ type: ActionType.SHOW_COMMENTS_FAIL, payload: error });

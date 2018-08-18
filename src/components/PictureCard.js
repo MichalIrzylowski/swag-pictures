@@ -12,6 +12,7 @@ import {
   Button
 } from "reactstrap";
 import { connect } from "react-redux";
+import CommentsList from "./CommentsList";
 import {
   ADD_COMMENT_REQUEST,
   SHOW_COMMENTS_REQUEST
@@ -35,7 +36,7 @@ class PictureCard extends Component {
       this.props.sendComment(
         this.state.comment,
         this.props.pictureId,
-        this.props.userId
+        this.props.user.id
       );
       this.setState({ comment: "" });
     }
@@ -46,7 +47,15 @@ class PictureCard extends Component {
   };
 
   render() {
-    let { img, title, description, author, comments } = this.props;
+    let {
+      img,
+      title,
+      description,
+      author,
+      comments,
+      loadedComentsToPicture,
+      loading
+    } = this.props;
 
     return (
       <Card style={{ marginTop: "20px" }}>
@@ -66,13 +75,18 @@ class PictureCard extends Component {
         <CardBody>
           <CardTitle>{title}</CardTitle>
           <CardText>{description}</CardText>
-          {comments.length > 0 && (
-            <Button onClick={this.handleLoadComments}>{`Show all coments: ${
-              comments.length
-            } `}</Button>
+          {comments.length > 0 &&
+            !loadedComentsToPicture && (
+              <Button onClick={this.handleLoadComments}>{`Show all coments: ${
+                comments.length
+              } `}</Button>
+            )}
+          {loadedComentsToPicture && (
+            <CommentsList comments={loadedComentsToPicture} />
           )}
         </CardBody>
         <hr />
+        {loading && <p>Ładowanie</p>}
         <Form onSubmit={this.handleSubmit}>
           <Input
             type="text"
@@ -89,17 +103,25 @@ class PictureCard extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    sendComment: (comment, pictureId, userId) =>
+    sendComment: (comment, pictureId, authorOfACommentId) =>
       dispatch({
         type: ADD_COMMENT_REQUEST,
-        payload: { comment, pictureId, userId }
+        payload: { comment, pictureId, authorOfACommentId }
       }),
     loadComments: comments =>
       dispatch({ type: SHOW_COMMENTS_REQUEST, payload: comments })
   };
 }
 
+function mapStateToProps(state, ownProps) {
+  return {
+    user: state.currentUser.user,
+    loadedComentsToPicture: state.showComments.comments[ownProps.pictureId],
+    isCommentAdded: state.addComment.loading
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(PictureCard);
