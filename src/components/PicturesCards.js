@@ -3,6 +3,7 @@ import PictureCard from "./PictureCard";
 import Helper from "./Helper";
 
 const PicturesCards = ({ pictures }) => {
+  debugger;
   let picturesCards = pictures.map(p => (
     <PictureCard
       key={p._id}

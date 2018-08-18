@@ -165,7 +165,7 @@ function loadPictures(state = { loading: false, pictures: [] }, action) {
     case ActionType.ADD_COMMENT_SUCCESS:
       let pictures = state.pictures.map(p => {
         if (p._id === action.payload.commentTo) {
-          p.comments.push(action.payload);
+          p.comments.push(action.payload._id);
           return p;
         } else {
           return p;
@@ -212,7 +212,7 @@ function showComments(state = { loading: false, comments: {} }, action) {
         comments[action.payload.commentTo].push(action.payload);
         return { ...state, comments };
       }
-      return { ...state };
+      return { ...state, comments: { ...state.comments } };
     case ActionType.SHOW_COMMENTS_FAIL:
       return { loading: false, error: action.payload };
     case ActionType.LOGOUT_SUCCESS:
