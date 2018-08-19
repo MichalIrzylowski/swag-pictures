@@ -9,17 +9,19 @@ class CommentsList extends Component {
   }
 
   render() {
-    const { comments } = this.props;
+    const { comments, user } = this.props;
 
     let Comments = comments.map(c => (
       <ListGroupItem key={c._id}>
         {c.author && <strong>{c.author.username}</strong>} {c.text}{" "}
-        <Button
-          color="danger"
-          onClick={this.handleDelete.bind(this, c._id, c.commentTo)}
-        >
-          Delete a comment
-        </Button>
+        {user.id === c.author._id && (
+          <Button
+            color="danger"
+            onClick={this.handleDelete.bind(this, c._id, c.commentTo)}
+          >
+            Delete a comment
+          </Button>
+        )}
       </ListGroupItem>
     ));
 
@@ -37,7 +39,13 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+function mapStateToProps(state) {
+  return {
+    user: state.currentUser.user
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CommentsList);
