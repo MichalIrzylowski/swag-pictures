@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Jumbotron, Button, Row, Col } from "reactstrap";
+import { Jumbotron, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 

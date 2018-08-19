@@ -172,6 +172,22 @@ function loadPictures(state = { loading: false, pictures: [] }, action) {
         }
       });
       return { ...state, pictures };
+    case ActionType.DELETE_COMMENT_SUCCESS:
+      let foundPicture = state.pictures.find(
+        p => p._id === action.payload.pictureId
+      );
+      let updatedCommentsOfAPicture = foundPicture.comments.filter(
+        c => c !== action.payload.commentId
+      );
+      foundPicture.comments = updatedCommentsOfAPicture;
+      let updatedPictures = state.pictures.map(p => {
+        if (p._id === foundPicture._id) {
+          return foundPicture;
+        } else {
+          return p;
+        }
+      });
+      return { ...state, pictures: updatedPictures };
     case ActionType.LOAD_PICTURES_FAIL:
       return { loading: false, error: action.payload };
     case ActionType.LOGOUT_SUCCESS:
@@ -209,10 +225,24 @@ function showComments(state = { loading: false, comments: {} }, action) {
     case ActionType.ADD_COMMENT_SUCCESS:
       if (state.comments[action.payload.commentTo]) {
         let comments = { ...state.comments };
-        comments[action.payload.commentTo].push(action.payload);
+        comments[action.payload.commentTo] = [
+          ...comments[action.payload.commentTo],
+          action.payload
+        ];
         return { ...state, comments };
       }
       return { ...state, comments: { ...state.comments } };
+    case ActionType.DELETE_COMMENT_SUCCESS:
+      let filteredComments = state.comments[action.payload.pictureId].filter(
+        c => c._id !== action.payload.commentId
+      );
+      return {
+        ...state,
+        comments: {
+          ...state.comments,
+          [action.payload.pictureId]: filteredComments
+        }
+      };
     case ActionType.SHOW_COMMENTS_FAIL:
       return { loading: false, error: action.payload };
     case ActionType.LOGOUT_SUCCESS:

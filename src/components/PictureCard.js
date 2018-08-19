@@ -54,9 +54,8 @@ class PictureCard extends Component {
       author,
       comments,
       loadedComentsToPicture,
-      loading
+      isCommentAdded
     } = this.props;
-
     return (
       <Card style={{ marginTop: "20px" }}>
         <CardBody>
@@ -86,7 +85,7 @@ class PictureCard extends Component {
           )}
         </CardBody>
         <hr />
-        {loading && <p>Ładowanie</p>}
+        {isCommentAdded && <p>Loading</p>}
         <Form onSubmit={this.handleSubmit}>
           <Input
             type="text"

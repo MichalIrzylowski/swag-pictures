@@ -1,4 +1,5 @@
 import { takeEvery, put, take, fork, call } from "redux-saga/effects";
+import { delay } from "redux-saga";
 
 import * as ActionType from "./ActionTypes";
 import { apiCall } from "../api";
@@ -174,7 +175,7 @@ function* followUserFlow() {
 function* addCommentFlow() {
   while (true) {
     const comment = yield take(ActionType.ADD_COMMENT_REQUEST);
-    console.log(comment.payload);
+    // yield delay(10000);
     try {
       const succesfulyAddedComment = yield call(
         apiCall,
@@ -215,6 +216,25 @@ function* showCommentsFlow() {
   }
 }
 
+function* deleteCommentFlow() {
+  while (true) {
+    const commentToDelete = yield take(ActionType.DELETE_COMMENT_REQUEST);
+    try {
+      yield call(
+        apiCall,
+        "delete",
+        `/api/user/delete_comment/${commentToDelete.payload.commentId}`
+      );
+      yield put({
+        type: ActionType.DELETE_COMMENT_SUCCESS,
+        payload: commentToDelete.payload
+      });
+    } catch (error) {
+      yield put({ type: ActionType.DELETE_COMMENT_FAIL, payload: error });
+    }
+  }
+}
+
 export default function* rootSaga() {
   yield takeEvery(ActionType.APP_INIT, appInitiated);
   yield fork(registerFlow);
@@ -227,4 +247,5 @@ export default function* rootSaga() {
   yield fork(followUserFlow);
   yield fork(addCommentFlow);
   yield fork(showCommentsFlow);
+  yield fork(deleteCommentFlow);
 }
