@@ -221,3 +221,7 @@ section:nth-child(odd) {
     top: -30px;
   }
 }
+
+.ValidateFormAlert {
+  color: #cc0000;
+}
