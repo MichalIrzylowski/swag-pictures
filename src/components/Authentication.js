@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import validator from "validator";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Form, FormGroup, Label, Input, Button, Alert } from "reactstrap";
 import { REGISTER_REQUEST, LOGIN_REQUEST } from "../redux/ActionTypes";
 import ValidateFormAlert from "./ValidateFormAlert";
 
@@ -66,6 +66,7 @@ class Authentication extends Component {
   };
 
   render() {
+    const { errors } = this.props;
     return (
       <Form
         onSubmit={
@@ -74,6 +75,13 @@ class Authentication extends Component {
             : this.handleLogin
         }
       >
+        {errors.register ||
+          (errors.login && (
+            <Alert color="danger">
+              <h4 className="alert-heading">Validation error</h4>
+              <p>{errors.register || errors.login}</p>
+            </Alert>
+          ))}
         {this.props.match.path === "/Register" ? (
           <h2>Register yourself</h2>
         ) : (
@@ -130,7 +138,11 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    user: state.currentUser
+    user: state.currentUser,
+    errors: {
+      register: state.registration.error.message,
+      login: state.login.error.message
+    }
   };
 }
 

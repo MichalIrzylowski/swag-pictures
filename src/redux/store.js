@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import * as ActionType from "./ActionTypes";
 
-const loadingTrue = { loading: true };
-const loadingFalse = { loading: false };
+const loadingTrue = { loading: true, error: "" };
+const loadingFalse = { loading: false, error: "" };
 const initialUser = {
   isAuthenticated: false,
   user: {
@@ -29,9 +29,11 @@ function didAppLoad(state = loadingTrue, action) {
 function registration(state = loadingFalse, action) {
   switch (action.type) {
     case ActionType.REGISTER_REQUEST:
-      return { loading: true };
+      return { loading: true, error: "" };
     case ActionType.REGISTER_REQUEST_SUCCESS:
-      return { loading: false, message: "Registered!" };
+      return { ...state, loading: false, message: "Registered!" };
+    case ActionType.LOGIN_REQUEST_SUCCESS:
+      return { ...state, error: "" };
     case ActionType.REGISTER_REQUEST_FAIL:
       return { error: action.payload, loading: false };
     default:
@@ -42,9 +44,11 @@ function registration(state = loadingFalse, action) {
 function login(state = loadingFalse, action) {
   switch (action.type) {
     case ActionType.LOGIN_REQUEST:
-      return { loading: true };
+      return { loading: true, error: "" };
     case ActionType.LOGIN_REQUEST_SUCCESS:
-      return { loading: false, message: "Logged in!" };
+      return { ...state, loading: false, message: "Logged in!" };
+    case ActionType.REGISTER_REQUEST_SUCCESS:
+      return { ...state, error: "" };
     case ActionType.LOGIN_REQUEST_FAIL:
       return { loading: false, error: action.payload };
     default:
