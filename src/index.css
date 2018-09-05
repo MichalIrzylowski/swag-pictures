@@ -30,6 +30,7 @@ section:nth-child(odd) {
 }
 
 footer {
+  margin-top: 50px;
   background-color: #dddddd;
 }
 
