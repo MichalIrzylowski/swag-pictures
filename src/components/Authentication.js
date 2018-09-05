@@ -66,7 +66,8 @@ class Authentication extends Component {
   };
 
   render() {
-    const { errors } = this.props;
+    const { errors, loading } = this.props;
+
     return (
       <Form
         onSubmit={
@@ -120,8 +121,14 @@ class Authentication extends Component {
             <ValidateFormAlert text={this.state.errors.password} />
           )}
         </FormGroup>
-        <Button color="success">
+        <Button
+          color="success"
+          disabled={loading.registration || loading.login}
+        >
           {this.props.match.path === "/Register" ? "Register!" : "Sign up!"}
+          {(loading.registration || loading.login) && (
+            <i class="fas fa-circle-notch" />
+          )}
         </Button>
       </Form>
     );
@@ -142,6 +149,10 @@ function mapStateToProps(state) {
     errors: {
       register: state.registration.error.message,
       login: state.login.error.message
+    },
+    loading: {
+      register: state.registration.loading,
+      login: state.login.loading
     }
   };
 }

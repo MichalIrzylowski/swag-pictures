@@ -29,6 +29,10 @@ section:nth-child(odd) {
   background-color: #e9ecef;
 }
 
+footer {
+  background-color: #dddddd;
+}
+
 .container {
   margin-top: 20px;
 }
@@ -144,7 +148,13 @@ section:nth-child(odd) {
   cursor: auto;
 }
 
+.fas.fa-circle-notch {
+  opacity: 1;
+  animation: loading 1s infinite;
+}
+
 .logo-list {
+  display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -ms-flex-direction: row;
@@ -186,6 +196,32 @@ section:nth-child(odd) {
   margin-right: 20px;
 }
 
+.ValidateFormAlert {
+  color: #cc0000;
+}
+
+.possibilities-picture {
+  width: 100%;
+  border-bottom: 1px dashed black;
+}
+
+.picture-title {
+  align-self: flex-start;
+  margin-top: 20px;
+  color: grey;
+}
+
+.footer-container {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px 0;
+}
+
+.footer-container_title {
+  margin-bottom: 50px;
+}
+
 @-webkit-keyframes animateArrow {
   0% {
     top: -30px;
@@ -222,6 +258,11 @@ section:nth-child(odd) {
   }
 }
 
-.ValidateFormAlert {
-  color: #cc0000;
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
