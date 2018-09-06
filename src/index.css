@@ -22,7 +22,8 @@ section hr {
   background-color: #0069d9;
   border: none;
   border-radius: 2px;
-  margin: 50px 0;
+  margin-top: 0;
+  margin-bottom: 50px;
 }
 
 section:nth-child(odd) {
@@ -168,7 +169,6 @@ footer {
 }
 
 .Logo-card {
-  /* background-color: #fff; */
   margin: 50px;
   border-radius: 3px;
   display: -webkit-box;
@@ -188,6 +188,7 @@ footer {
 
 .logo-svg {
   margin-bottom: 10px;
+  width: 100px;
   height: 100px;
 }
 
@@ -265,5 +266,17 @@ footer {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 748px) {
+  section {
+    padding: 20px;
+  }
+  .container {
+    max-width: 720px;
+  }
+  .Logo-card {
+    margin: 20px;
   }
 }
