@@ -1,3 +1,7 @@
+Instagram clone built with React. You can see full app at: https://swag-pictures.herokuapp.com.
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
