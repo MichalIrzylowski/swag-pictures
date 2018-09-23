@@ -1,5 +1,4 @@
 import { takeEvery, put, take, fork, call } from "redux-saga/effects";
-import { delay } from "redux-saga";
 
 import * as ActionType from "./ActionTypes";
 import { apiCall } from "../api";
